@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/font_statics/chouTi.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/font_statics/jq/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+    <div class="maskBackground css_hide">
+        <div class="registerAndLogin">
+            <div class="registerAndLogin_titleContainer">
+                <div class="login_title">登录</div>
+                <div class="register_title"><span>注册</span><span class="closeButton">关闭</span></div>
+            </div>
+            <div class="registerAndLogin_contentContainer">
+                <div class="login_content contentInnerSpace">
+                    <div class="login_content_title">邮箱登录 | 用户名登录</div>
+                    <form>
+                        <input type="text" placeholder="邮箱地址"/>
+                        <input type="password" placeholder="密码"/>
+                        <div class="loginRelated">
+                            <label><input type="checkbox"/>一个月内自动登录</label><span class="forgetPassword">忘记密码</span>
+                        </div>
+                        <input type="submit" value="登录"/>
+                    </form>
+                </div>
+                <div class="register_content contentInnerSpace">
+                    <div class="register_content_title">用户注册</div>
+                    <form>
+                        <input type="text" placeholder="请输入邮箱地址"/><button>获取验证码</button>
+                        <input type="text" placeholder="请输入验证码"/>
+                        <input type="password" placeholder="密码"/>
+                        <div class="registerNextStep">
+                            <input type="submit" value="下一步"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="chouTiContainer">
+        <div class="navigationContainer">
+            <div class="navigation-left-fill">&nbsp</div>
+            <div class="navigation-middle">
+                <a class="img_operateAndshow_cover">
+                    <img class="logo-icon" src="font_statics/images/logo-c30a1a3941.png">
+                    <img class="logo-text" src="font_statics/images/logo_txt-06bb1545d4.png">
+                </a>
+                <ul class="navigationTabContainer">
+                    <li><a href="##">全部</a></li>
+                    <li><a>42区</a></li>
+                    <li><a>段子</a></li>
+                    <li><a>烧烤</a></li>
+                    <li><a>烧烤</a></li>
+                    <li><a>你们教育</a></li>
+                </ul>
+            </div>
+            <div class="identityContainer">
+                <span>注册</span><span>登录</span>
+            </div>
+        </div>
+        <div class="chouTiContentContainer">
+            <div class="chouTiContentHead">
+                <div class="chouTiContentHead-middlePart">
+                    <ul>
+                        <li id="mostHot"><a>最热</a></li>
+                        <li id="mostNew"><a>最新</a></li>
+                        <li id="peoplePublish"><a>人类发布</a></li>
+                    </ul>
+                    <span class="publish">发布</span>
+                </div>
+            </div>
+            <div class="chouTiContent">
+                <div class="chouTiContent-middlePart">
+                    <div class="mostHot tabContent">
+                        <div class="tabContentItem">
+                            <div class="tabContentItemPage floatLeft">
+                                <p>【去意已决！姆巴佩拒绝与巴黎续约】据《队报》、天空体育、《电讯报》等多家媒体及著名信源罗马诺消息，姆巴佩已书信通知巴黎，不会行使合同中的续约一年选项，将在明年夏天自由身离开。 巴黎方面态度坚决，回应称不续约就今夏出售，姆巴佩任何情况下都不会自由身离开。</p>
+                                <div>
+                                    <a><span class="operateImageCommon liked"></span><span class="operateTxtCommon likedTxt">1</span></a>
+                                    <a class="spaceBetween"><span class="operateImageCommon comments"></span><span class="operateTxtCommon commentsTxt">2</span></a>
+                                    <a class="spaceBetween"><span class="operateImageCommon saved"></span><span class="operateTxtCommon savedTxt"></span></a>
+                                </div>
+                            </div>
+                            <img class="floatLeft" src="font_statics/images/91E9C5BEB41D4F529E6A60147376CDC9_W191H191.jpeg">
+                        </div>
+
+                    </div>
+                    <div class="mostNew tabContent hideTabContent">222222222</div>
+                    <div class="peoplePublish tabContent hideTabContent">33333333333333</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".tabContentItemPage").width($(".chouTiContent-middlePart").width() -$(".tabContentItem img").width())
+            $(".chouTiContentHead-middlePart li").click(function () {
+                me = $(this)
+                $(".chouTiContent-middlePart .tabContent").each(function (index, currentDom) {
+                    if (!$(currentDom).hasClass("hideTabContent")) {
+                        $(currentDom).addClass("hideTabContent")
+                    }
+                    if ($(currentDom).hasClass(me.attr("id"))) {
+                        $(currentDom).removeClass("hideTabContent")
+                    }
+                })
+
+            })
+            $(".register_title .closeButton").click(function () {
+                $(this).parents(".maskBackground").addClass("css_hide")
+            })
+            $(".identityContainer").click(function () {
+                $(".register_title .closeButton").parents(".maskBackground").removeClass("css_hide")
+            })
+        })
+    </script>
+</body>
+</html>
