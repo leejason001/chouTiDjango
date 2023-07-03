@@ -18,4 +18,9 @@ $(document).ready(function () {
     $(".identityContainer").click(function () {
         $(".register_title .closeButton").parents(".maskBackground").removeClass("css_hide")
     })
+
+    $(".login_content img.showValidate").click(function(){
+        var imageElement = $(this)
+        imageElement.attr("src",imageElement.attr("src")+"?")
+    })
 })

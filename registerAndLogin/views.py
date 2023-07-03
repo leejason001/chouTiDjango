@@ -13,4 +13,5 @@ def getValidateCodeImage(request):
     img, code = CheckCode.create_validate_code()
     img.save(stream, "png")
     request.session["CheckCode"] = code
+    print "?????"
     return HttpResponse(stream.getvalue())
