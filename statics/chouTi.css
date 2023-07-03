@@ -49,6 +49,12 @@
     background-position: right;
     text-align: center;
 }
+.login_content .validateInput {
+    width: 20%;
+}
+.login_content .showValidate {
+    width: 30%;
+}
 .contentInnerSpace {
     padding: 20px 0;
 }
