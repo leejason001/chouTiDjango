@@ -43,7 +43,7 @@
     width: 50%;
     height: 100%;
     float: left;
-    background-image: url(font_statics/images/registerAndLogin_contentBg.png);
+    background-image: url(images/registerAndLogin_contentBg.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: right;
@@ -154,7 +154,7 @@
     display: inline-block;
 }
 .liked {
-    background: url("font_statics/images/recommend-bff29b548b.png") no-repeat -10px -12px;
+    background: url("images/recommend-bff29b548b.png") no-repeat -10px -12px;
     background-size: 44px auto;
     width: 20px;
     height: 20px;
@@ -168,13 +168,13 @@
 .likedTxt {
 }
 .comments {
-    background: url(font_statics/images/comment-d4e0fc5925.png) no-repeat 0px 0px;
+    background: url(images/comment-d4e0fc5925.png) no-repeat 0px 0px;
     background-size: 18px auto;
     width: 18px;
     height: 18px;
 }
 .saved {
-    background: url("font_statics/images/save-56845dd49a.png") no-repeat -10px -12px;
+    background: url("images/save-56845dd49a.png") no-repeat -10px -12px;
     background-size: 44px auto;
     width: 20px;
     height: 20px;
