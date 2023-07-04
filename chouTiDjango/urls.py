@@ -20,5 +20,6 @@ from registerAndLogin import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^chouTiIndex.html$', views.showChouTiIndex),
+    url(r'^login.html$', views.loginChouTi),
     url(r'^getValidateCodeImage/$', views.getValidateCodeImage),
 ]
