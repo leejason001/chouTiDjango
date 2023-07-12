@@ -3,10 +3,13 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, HttpResponse
 import io
+
+import myForms
 from utils import check_code as CheckCode
 # Create your views here.
 def showChouTiIndex(request):
-    return render(request, "chouTiIndex.html")
+    loginObj = myForms.loginForm()
+    return render(request, "chouTiIndex.html", {'loginObj': loginObj})
 
 def getValidateCodeImage(request):
     stream = io.BytesIO()
@@ -16,12 +19,12 @@ def getValidateCodeImage(request):
     return HttpResponse(stream.getvalue())
 
 def loginChouTi(request):
-    if request.POST.get("inputValidateCode") != None and request.POST.get("inputValidateCode").lower() == request.session["CheckCode"].lower():
-        print "验证通过"
-    elif request.POST.get("inputValidateCode") == None:
-        print "NNNNN"
-    else:
-        print "验证失败"
-    print request.POST.get("username")
 
-    return render(request, "chouTiIndex.html")
+    obj = myForms.loginForm(request.POST)
+    if request.POST.get("inputValidateCode") != None and request.POST.get("inputValidateCode").lower() == request.session["CheckCode"].lower():
+        if obj.is_valid():
+            return render( request, "chouTiIndex.html" )
+    return render(request, "chouTiIndex.html", {"loginObj":obj})
+
+
+
