@@ -1,3 +1,5 @@
+
+
 $(document).ready(function () {
     $(".tabContentItemPage").width($(".chouTiContent-middlePart").width() -$(".tabContentItem img").width())
     $(".chouTiContentHead-middlePart li").click(function () {
@@ -20,7 +22,24 @@ $(document).ready(function () {
     })
 
     $(".login_content img.showValidate").click(function(){
-        var imageElement = $(this)
+        var imageElement = $(this);
         imageElement.attr("src",imageElement.attr("src")+"?")
     })
+
+    $("#getValidateCode").click(function(){
+        var me =$(this);
+        me.text("60s");
+        var countdownTimer = setInterval(function () {
+            var timeReg = new RegExp(/[0-9]+/)
+            var currentTime = parseInt(me.text().match(timeReg));
+            currentTime -= 1;
+            if (0 == currentTime) {
+                me.text("获取验证码");
+                clearInterval(countdownTimer);
+            } else {
+                me.text(currentTime + 's');
+            }
+        }, 1000);
+    })
+
 })

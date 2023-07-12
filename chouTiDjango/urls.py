@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^chouTiIndex.html$', views.showChouTiIndex),
     url(r'^login.html$', views.loginChouTi),
     url(r'^getValidateCodeImage/$', views.getValidateCodeImage),
+    url(r'^register.html$', views.registerChouTi),
 ]
