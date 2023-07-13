@@ -3,9 +3,17 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, HttpResponse
 import io
+import re
 
 import myForms
 from utils import check_code as CheckCode
+
+
+def _fullmatch(regex, string, flags=0):
+    if hasattr(re, 'fullmatch'):
+        return re.fullmatch(regex, string)
+    return re.match("(?:" + regex + ")\Z", string, flags=flags)
+
 # Create your views here.
 def showChouTiIndex(request):
     loginObj = myForms.loginForm()
@@ -28,8 +36,8 @@ def loginChouTi(request):
 
 def submitValidateEmail(request):
     email = request.POST.get("validateEmail");
-    print 1111111111111111;
-    print email;
+    if _fullmatch(r'[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+([\.a-zA-Z0-9_-]+)+', email) == None:
+        return HttpResponse("Email validate failed!")
     return HttpResponse("ok");
 
 def registerChouTi(request):

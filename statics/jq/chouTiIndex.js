@@ -61,16 +61,15 @@ $(document).ready(function () {
         if(/^[a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+)(\.[a-zA-Z0-9_-]+)+/g.test(me.prev(".validateEmail").val()) == false) {
             alert("邮箱格式错误");
         } else {
-            getValidatorCodeCountdown(me);
             $.ajax({
                 url:"submitValidateEmail",
-                method: "post",
-                dataType: "json",
+                type: "post",
                 data: {"validateEmail": me.prev(".validateEmail").val()},
-                success: function () {
-
+                success:function (data, textStatus, xhr) {
+                    console.log(data);
                 }
             })
+            getValidatorCodeCountdown(me);
         }
     })
 
