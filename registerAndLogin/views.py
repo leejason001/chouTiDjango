@@ -19,13 +19,18 @@ def getValidateCodeImage(request):
     return HttpResponse(stream.getvalue())
 
 def loginChouTi(request):
-
     obj = myForms.loginForm(request.POST)
     if request.POST.get("inputValidateCode") != None and request.POST.get("inputValidateCode").lower() == request.session["CheckCode"].lower():
         if obj.is_valid():
             #在数据库中查询，若有此用户，就可以正常登录，否则登录失败，走后端验证失败的render
             return render( request, "chouTiIndex.html" )
     return render(request, "chouTiIndex.html", {"loginObj":obj})
+
+def submitValidateEmail(request):
+    email = request.POST.get("validateEmail");
+    print 1111111111111111;
+    print email;
+    return HttpResponse("ok");
 
 def registerChouTi(request):
     print "hhhhhhhhhhh"

@@ -14,6 +14,19 @@ function getValidatorCodeCountdown(currentHtmlElement) {
 }
 
 $(document).ready(function () {
+    var csrftoken = $.cookie('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
     $(".tabContentItemPage").width($(".chouTiContent-middlePart").width() -$(".tabContentItem img").width())
     $(".chouTiContentHead-middlePart li").click(function () {
         me = $(this)
@@ -49,6 +62,15 @@ $(document).ready(function () {
             alert("邮箱格式错误");
         } else {
             getValidatorCodeCountdown(me);
+            $.ajax({
+                url:"submitValidateEmail",
+                method: "post",
+                dataType: "json",
+                data: {"validateEmail": me.prev(".validateEmail").val()},
+                success: function () {
+
+                }
+            })
         }
     })
 

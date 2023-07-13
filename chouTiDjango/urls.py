@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^login.html$', views.loginChouTi),
     url(r'^getValidateCodeImage/$', views.getValidateCodeImage),
     url(r'^register.html$', views.registerChouTi),
+    url(r'^submitValidateEmail$', views.submitValidateEmail),
 ]
