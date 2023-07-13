@@ -41,7 +41,15 @@ $(document).ready(function () {
 
     $("#getValidateCode").click(function(){
         var me =$(this);
-        getValidatorCodeCountdown(me);
+        if(/[0-9]/g.test(me.text()) == true) {
+            alert("倒计时还未结束");
+            return;
+        }
+        if(/^[a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+)(\.[a-zA-Z0-9_-]+)+/g.test(me.prev(".validateEmail").val()) == false) {
+            alert("邮箱格式错误");
+        } else {
+            getValidatorCodeCountdown(me);
+        }
     })
 
 })
