@@ -7,6 +7,7 @@ import re
 
 import myForms
 from utils import check_code as CheckCode
+from utils import myTools
 
 
 def _fullmatch(regex, string, flags=0):
@@ -17,6 +18,8 @@ def _fullmatch(regex, string, flags=0):
 # Create your views here.
 def showChouTiIndex(request):
     loginObj = myForms.loginForm()
+    print 22222222222
+    print loginObj
     return render(request, "chouTiIndex.html", {'loginObj': loginObj})
 
 def getValidateCodeImage(request):
@@ -38,10 +41,14 @@ def submitValidateEmail(request):
     email = request.POST.get("validateEmail");
     if _fullmatch(r'[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+([\.a-zA-Z0-9_-]+)+', email) == None:
         return HttpResponse("Email validate failed!")
-    return HttpResponse("ok");
+
+    print myTools.getValidationCode();
+
+
+    return HttpResponse("ok")
 
 def registerChouTi(request):
-    print "hhhhhhhhhhh"
+
     return render(request, "chouTiIndex.html")
 
 
