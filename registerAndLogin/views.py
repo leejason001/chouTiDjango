@@ -18,8 +18,6 @@ def _fullmatch(regex, string, flags=0):
 # Create your views here.
 def showChouTiIndex(request):
     loginObj = myForms.loginForm()
-    print 22222222222
-    print loginObj
     return render(request, "chouTiIndex.html", {'loginObj': loginObj})
 
 def getValidateCodeImage(request):
