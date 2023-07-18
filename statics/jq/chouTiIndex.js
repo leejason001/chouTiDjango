@@ -66,7 +66,9 @@ $(document).ready(function () {
                 type: "post",
                 data: {"validateEmail": me.prev(".validateEmail").val()},
                 success:function (data, textStatus, xhr) {
-                    console.log(data);
+                    if(false == JSON.parse(data).status) {
+                        $("#getValidateCode").siblings(".validateEmailError").text(JSON.parse(data).summary)
+                    }
                 }
             })
             getValidatorCodeCountdown(me);

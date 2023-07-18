@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from django.shortcuts import render, HttpResponse
 import io
 import re
+import json
+import datetime
 
 import myForms
 from utils import check_code as CheckCode
@@ -36,11 +38,29 @@ def loginChouTi(request):
     return render(request, "chouTiIndex.html", {"loginObj":obj})
 
 def submitValidateEmail(request):
+    rep = myTools.BaseResponse();
     email = request.POST.get("validateEmail");
     if _fullmatch(r'[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+([\.a-zA-Z0-9_-]+)+', email) == None:
-        return HttpResponse("Email validate failed!")
+        rep.status = False;
+        rep.summary = "邮箱格式错误"
+        return HttpResponse(json.dumps(rep.__dict__))
 
-    print myTools.getValidationCode();
+    if models.objects.userInfo.filter(email=email).count() !=0:
+        rep.status = False
+        rep.summary = "该邮箱已经被注册"
+        return HttpResponse(json.dumps(rep.__dict__))
+
+    validationCodeEmailed = myTools.getValidationCode()
+    currentTime = datetime.datetime.now()
+    if models.objects.sendMsg.filter(email=email).count() == 0:
+        models.objects.sendMsg.create(email=email, code=validationCodeEmailed, firstSendTime=currentTime)
+
+
+
+
+
+
+
 
 
     return HttpResponse("ok")

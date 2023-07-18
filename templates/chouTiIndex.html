@@ -36,6 +36,7 @@
                     <form method="post" action="register.html">
                         {% csrf_token %}
                         <input class="validateEmail" type="text" placeholder="请输入邮箱地址"/><span id="getValidateCode">获取验证码</span>
+                        <div class="validateEmailError"></div>
                         <input type="text" placeholder="请输入验证码"/>
                         <input type="password" placeholder="密码"/>
                         <div class="registerNextStep">

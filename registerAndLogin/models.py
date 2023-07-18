@@ -11,8 +11,8 @@ class userInfo(models.Model):
     ctime = models.DateTimeField(auto_now_add=True)
 
 class sendMsg(models.Model):
-    email = models.EmailField(max_length=32, unique=True)
+    email = models.EmailField(max_length=32, unique=True, db_index=True)
     code = models.CharField(max_length=6)
     firstSendTime = models.DateTimeField()
-    timesLimit = models.IntegerField()
+    timesLimit = models.IntegerField(default=0)
 
