@@ -25,8 +25,9 @@ def _fullmatch(regex, string, flags=0):
 
 # Create your views here.
 def showChouTiIndex(request):
-    loginObj = myForms.loginForm()
-    return render(request, "chouTiIndex.html", {'loginObj': loginObj})
+    loginObj    = myForms.loginForm()
+    registerObj = myForms.registerForm()
+    return render(request, "chouTiIndex.html", {'loginObj': loginObj, "registerObj": registerObj})
 
 def getValidateCodeImage(request):
     stream = io.BytesIO()
@@ -57,7 +58,7 @@ def submitValidateEmail(request):
         rep.summary = "该邮箱已经被注册"
         return HttpResponse(json.dumps(rep.__dict__))
 
-    validationCodeEmailed = myTools.getValidationCode()
+    validationCodeEmailed = myTools.getValidationCode().lower()
     currentTime = datetime.datetime.now()
     if models.sendMsg.objects.filter(email=email).count() == 0:
         models.sendMsg.objects.create(email=email, code=validationCodeEmailed, firstSendTime=currentTime, tempTimes=0)
@@ -83,6 +84,7 @@ def registerChouTi(request):
     validationCode = request.POST.get("validationCode").lower()
 
     thisValidationTempData = models.sendMsg.objects.filter(email=email, code=validationCode)
+    print thisValidationTempData
     if thisValidationTempData.count():
         if models.userInfo.objects.filter(email=email).count():
             print u"该邮箱已被注册"
