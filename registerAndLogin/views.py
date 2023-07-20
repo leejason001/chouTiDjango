@@ -38,18 +38,43 @@ def getValidateCodeImage(request):
 
 def loginChouTi(request):
     obj = myForms.loginForm(request.POST)
-    if request.POST.get("inputValidateCode") != None and request.POST.get("inputValidateCode").lower() == request.session["CheckCode"].lower():
-        if obj.is_valid():
-            #在数据库中查询，若有此用户，就可以正常登录，否则登录失败，走后端验证失败的render
+    # if request.POST.get("inputValidateCode") != None and request.POST.get("inputValidateCode").lower() == request.session["CheckCode"].lower():
+    if obj.is_valid():
 
-            return render( request, "chouTiIndex.html" )
+
+        value_dict = obj.clean()
+
+        if value_dict["inputValidateCode"].lower() == request.session["CheckCode"].lower():
+        #在数据库中查询，若有此用户，就可以正常登录，否则登录失败，走后端验证失败的render
+            con1 = Q()
+            con1.children.append(('email', value_dict["username"]))
+            con1.connector = "AND"
+            con1.children.append(('pwd', value_dict["password"]))
+
+            con2 = Q()
+            con2.children.append(('username', value_dict["username"]))
+            con2.connector = "AND"
+            con2.children.append(('pwd', value_dict["password"]))
+
+            con = Q()
+            con.add(con1, "OR")
+            con.add(con2, "OR")
+
+            obj = models.userInfo.objects.filter(con).first()
+
+            if not obj:
+                return render( request, "chouTiIndex.html", {"myErrors": u"用户名邮箱或密码错误"} )
+            else:
+                request.session['is_login'] = True
+                request.session['user_info'] = {'id': obj.id, 'email': obj.email, 'username': obj.username}
+
     return render(request, "chouTiIndex.html", {"loginObj":obj})
 
 def submitValidateEmail(request):
-    rep = myTools.BaseResponse();
+    rep = myTools.BaseResponse()
     email = request.POST.get("validateEmail")
     if _fullmatch(r'[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+([\.a-zA-Z0-9_-]+)+', email) == None:
-        rep.status = False;
+        rep.status = False
         rep.summary = "邮箱格式错误"
         return HttpResponse(json.dumps(rep.__dict__))
 

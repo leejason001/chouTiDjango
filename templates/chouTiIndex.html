@@ -21,8 +21,9 @@
                         {% csrf_token %}
                         {{ loginObj.username }}<span>{{ loginObj.errors.username.0 }}</span>
                         {{ loginObj.password }}
+                        <div>{{ myErrors }}</div>
                         <div>
-                            <input name="inputValidateCode" class="validateInput" type="text" placeholder="请输入验证码">
+                            {{ loginObj.inputValidateCode }}
                             <img class="showValidate" src="getValidateCodeImage"/>
                         </div>
                         <div class="loginRelated">

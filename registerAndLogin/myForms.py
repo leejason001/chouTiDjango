@@ -14,6 +14,12 @@ class loginForm(forms.Form):#
         attrs={"placeholder": u"请输入用户名或邮箱"},
                                 ))
     password = fields.CharField(required=True, widget=widgets.PasswordInput(attrs={'placeholder': u'请输入密码'}))
+    inputValidateCode = fields.CharField(
+        required=True,
+        max_length=6,
+        widget=widgets.TextInput(
+            attrs={"placeholder": u"请输入验证码","class":"validateInput"}
+        ))
 
 class registerForm(forms.Form):
     validateEmail = fields.CharField(
