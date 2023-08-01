@@ -65,9 +65,10 @@ $(document).ready(function () {
                 url:"submitValidateEmail",
                 type: "post",
                 data: {"validateEmail": me.prev(".validateEmail").val()},
+                dataType: "JSON",
                 success:function (data, textStatus, xhr) {
-                    if(false == JSON.parse(data).status) {
-                        $("#getValidateCode").siblings(".validateEmailError").text(JSON.parse(data).summary)
+                    if(false == data.status) {
+                        $("#getValidateCode").siblings(".validateEmailError").text(data.summary)
                     }
                 }
             })
