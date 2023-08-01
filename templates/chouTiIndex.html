@@ -85,15 +85,19 @@
                 <div class="chouTiContent-middlePart">
                     <div class="mostHot tabContent">
                         <div class="tabContentItem">
-                            <div class="tabContentItemPage floatLeft">
-                                <p>【去意已决！姆巴佩拒绝与巴黎续约】据《队报》、天空体育、《电讯报》等多家媒体及著名信源罗马诺消息，姆巴佩已书信通知巴黎，不会行使合同中的续约一年选项，将在明年夏天自由身离开。 巴黎方面态度坚决，回应称不续约就今夏出售，姆巴佩任何情况下都不会自由身离开。</p>
-                                <div>
-                                    <a><span class="operateImageCommon liked"></span><span class="operateTxtCommon likedTxt">1</span></a>
-                                    <a class="spaceBetween"><span class="operateImageCommon comments"></span><span class="operateTxtCommon commentsTxt">2</span></a>
-                                    <a class="spaceBetween"><span class="operateImageCommon saved"></span><span class="operateTxtCommon savedTxt"></span></a>
+                            {% for new in news %}
+                            <div new_id="{{ new.id }}" class="newItem">
+                                <div class="tabContentItemPage floatLeft">
+                                    <p><span>【{{ new.title }}】</span><span>{{ new.summary }}</span></p>
+                                    <div>
+                                        <a><span class="operateImageCommon liked"></span><span class="operateTxtCommon likedTxt"></span></a>
+                                        <a class="spaceBetween"><span class="operateImageCommon comments"></span><span class="operateTxtCommon commentsTxt">2</span></a>
+                                        <a class="spaceBetween"><span class="operateImageCommon saved"></span><span class="operateTxtCommon savedTxt"></span></a>
+                                    </div>
                                 </div>
+                                <img class="floatLeft" src="{{ new.portraitPath }}">
                             </div>
-                            <img class="floatLeft" src="font_statics/images/91E9C5BEB41D4F529E6A60147376CDC9_W191H191.jpeg">
+                            {% endfor %}
                         </div>
 
                     </div>

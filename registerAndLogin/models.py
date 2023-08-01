@@ -16,3 +16,33 @@ class sendMsg(models.Model):
     firstSendTime = models.DateTimeField()
     tempTimes = models.IntegerField(default=0)
 
+
+'''
+为减少连表，提高效率，
+将不变化的数据直接写到数据库表
+class kindOfNews(models.Model):
+    kindName = models.CharField(max_length=20)
+'''
+
+class chouTiNews(models.Model):
+    title = models.CharField(max_length=20)
+    summary = models.CharField(max_length=200, null=True)
+    url = models.URLField(max_length=32, null=True)
+    kindName = models.CharField(max_length=20)
+    portraitPath = models.CharField(max_length=200)
+    authour = models.ForeignKey("userInfo")
+    createTime = models.DateTimeField(auto_now_add=True)
+    likedCount = models.IntegerField(default=0)
+    commentedCount = models.IntegerField(default=0)
+
+class commentSOfNews(models.Model):
+    content = models.CharField(max_length=100)
+    author = models.ForeignKey(userInfo)
+    new    = models.ForeignKey(chouTiNews)
+    device = models.CharField(max_length=16, null=True)
+    createTime = models.DateTimeField(auto_now_add=True)
+    parentComment_id = models.ForeignKey(to="self", related_name="parentCommentTable", null=True)
+
+class usersLikeNews(models.Model):
+    user = models.ForeignKey(userInfo)
+    new = models.ForeignKey(chouTiNews)

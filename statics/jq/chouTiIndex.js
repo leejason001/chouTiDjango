@@ -76,4 +76,22 @@ $(document).ready(function () {
         }
     })
 
+    $(".operateImageCommon.liked").click(function () {
+        var likedElement = $(this)
+        $.ajax({
+            url: /newLikedClick/,
+            type: "post",
+            data: {"new_id": likedElement.parents(".newItem").attr("new_id")},
+            success:function (data) {
+                if(data != 0) {
+                    likedElement.siblings(".likedTxt").text(data)
+                }
+                else {
+                    likedElement.siblings(".likedTxt").text("")
+                }
+            }
+        })
+
+    })
+
 })
