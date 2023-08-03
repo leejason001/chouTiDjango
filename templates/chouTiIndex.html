@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/font_statics/jq/jquery.cookie.js"></script>
 </head>
 <body>
+{% load myTags %}
     <div class="maskBackground css_hide">
         <div class="registerAndLogin">
             <div class="registerAndLogin_titleContainer">
@@ -90,9 +91,9 @@
                                 <div class="tabContentItemPage floatLeft">
                                     <p><span>【{{ new.title }}】</span><span>{{ new.summary }}</span></p>
                                     <div>
-                                        <a><span class="operateImageCommon liked"></span><span class="operateTxtCommon likedTxt"></span></a>
-                                        <a class="spaceBetween"><span class="operateImageCommon comments"></span><span class="operateTxtCommon commentsTxt"></span></a>
-                                        <a class="spaceBetween"><span class="operateImageCommon saved"></span><span class="operateTxtCommon savedTxt"></span></a>
+                                        <a><span class="operateImageCommon liked"></span><span class="operateTxtCommon likedTxt">{% filter0Count new.likedCount %}</span></a>
+                                        <a class="spaceBetween"><span class="operateImageCommon comments"></span><span class="operateTxtCommon commentsTxt">{% filter0Count  new.commentedCount %}</span></a>
+                                        <a class="spaceBetween"><span class="operateImageCommon collected"></span><span class="operateTxtCommon collectedTxt"></span></a>
                                     </div>
                                 </div>
                                 <img class="floatLeft" src="{{ new.portraitPath }}">
