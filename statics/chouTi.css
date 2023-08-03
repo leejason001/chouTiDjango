@@ -146,12 +146,16 @@
 .hideTabContent {
     display: none;
 }
+.newItem {
+    margin-bottom: 10px;
+    overflow: hidden;
+    clear: both;
+}
 .floatLeft {
     float: left;
 }
 .tabContentItem {
     overflow: hidden;
-    height: 192px;
 }
 .spaceBetween {
     margin-left: 20px;
