@@ -43,6 +43,11 @@ class commentSOfNews(models.Model):
     createTime = models.DateTimeField(auto_now_add=True)
     parentComment_id = models.ForeignKey(to="self", related_name="parentCommentTable", null=True)
 
+
+
 class usersLikeNews(models.Model):
     user = models.ForeignKey(userInfo)
     new = models.ForeignKey(chouTiNews)
+
+    class Meta:
+        unique_together = ("user", "new")
