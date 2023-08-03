@@ -137,10 +137,10 @@ def newLikedClick(request):
     newLikedRecord = models.usersLikeNews.objects.filter(Q(user=user_id) and Q(new=new_id))
     if newLikedRecord.count() == 0:
         models.usersLikeNews.objects.create(user=models.userInfo.objects.filter(id=user_id)[0], new=models.chouTiNews.objects.filter(id=new_id)[0])
-        models.chouTiNews.objects.update(id=new_id, likedCount=F("likedCount") + 1)
+        models.chouTiNews.objects.filter(id=new_id).update(likedCount=F("likedCount") + 1)
     else:
         newLikedRecord.delete()
-        models.chouTiNews.objects.update( id=new_id, likedCount=F( "likedCount" ) - 1 )
+        models.chouTiNews.objects.filter(id=new_id).update(likedCount=F("likedCount") - 1)
 
     return HttpResponse(models.chouTiNews.objects.filter(id=new_id)[0].likedCount)
 
