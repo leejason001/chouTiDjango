@@ -148,13 +148,7 @@ def newLikedClick(request):
 def getComments(request):
     commentsTable = []
     for comment in models.commentSOfNews.objects.filter(new=int(request.GET.get("new_id"))).values("id", "content", "author", "new", "device", "parentComment_id"):
-        commentsTable.append({
-            "id": comment["id"],
-            "content": comment["content"],
-            "author": comment["author"],
-            "new": comment["new"],
-            "parentComment_id": comment["parentComment_id"]
-        })
+        commentsTable.append(comment)
 
     newCommentsTalbe = {}
     for comment in commentsTable:
