@@ -14,7 +14,14 @@ function getValidatorCodeCountdown(currentHtmlElement) {
 }
 
 function createCommentDomTree(ret, parentNode) {
-    console.log(ret)
+    if (ret.length > 0) {
+        $.each(ret, function (index, comment) {
+            var node = $("<div></div>")
+            node.append($("<span>"+comment["content"]+"</span>"))
+            parentNode.append(node)
+            createCommentDomTree(comment["children"], node)
+        })
+    }
 }
 
 $(document).ready(function () {
