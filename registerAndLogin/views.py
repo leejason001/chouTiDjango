@@ -71,6 +71,7 @@ def loginChouTi(request):
                 return render( request, "chouTiIndex.html", {"myErrors": u"用户名邮箱或密码错误"} )
             else:
                 request.session['is_login'] = True
+                #print obj.id
                 request.session['user_info'] = {'id': obj.id, 'email': obj.email, 'username': obj.username}
 
     return render(request, "chouTiIndex.html", {"loginObj":obj})
@@ -132,8 +133,8 @@ def registerChouTi(request):
     return redirect("chouTiIndex.html")
 
 def newLikedClick(request):
-    user_id = request.session.get("user_info")["id"]
-    new_id = request.POST.get("new_id")
+    user_id = int(request.session.get("user_info")["id"])
+    new_id = int(request.POST.get("new_id"))
     newLikedRecord = models.usersLikeNews.objects.filter(Q(user=user_id) and Q(new=new_id))
     if newLikedRecord.count() == 0:
         models.usersLikeNews.objects.create(user=models.userInfo.objects.filter(id=user_id)[0], new=models.chouTiNews.objects.filter(id=new_id)[0])
@@ -143,6 +144,32 @@ def newLikedClick(request):
         models.chouTiNews.objects.filter(id=new_id).update(likedCount=F("likedCount") - 1)
 
     return HttpResponse(models.chouTiNews.objects.filter(id=new_id)[0].likedCount)
+
+def getComments(request):
+    commentsTable = []
+    for comment in models.commentSOfNews.objects.filter(new=int(request.GET.get("new_id"))).values("id", "content", "author", "new", "device", "parentComment_id"):
+        commentsTable.append({
+            "id": comment["id"],
+            "content": comment["content"],
+            "author": comment["author"],
+            "new": comment["new"],
+            "parentComment_id": comment["parentComment_id"]
+        })
+
+    newCommentsTalbe = {}
+    for comment in commentsTable:
+        comment.update({"children":[]})
+        newCommentsTalbe.update({comment["id"]:comment})
+
+    ret = []
+    for comment in commentsTable:
+        if None == comment["parentComment_id"]:
+            ret.append(comment)
+        else:
+            newCommentsTalbe[comment["parentComment_id"]]["children"].append(comment)
+
+
+    return HttpResponse(json.dumps(ret))
 
 
 

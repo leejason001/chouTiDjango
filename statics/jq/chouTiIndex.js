@@ -13,6 +13,10 @@ function getValidatorCodeCountdown(currentHtmlElement) {
     }, 1000);
 }
 
+function createCommentDomTree(ret, parentNode) {
+    console.log(ret)
+}
+
 $(document).ready(function () {
     var csrftoken = $.cookie('csrftoken');
     function csrfSafeMethod(method) {
@@ -91,7 +95,22 @@ $(document).ready(function () {
                 }
             }
         })
+    })
 
+    $(".operateImageCommon.comments").click(function () {
+        var commentImage = $(this)
+        $.ajax({
+            url:"/getComments/",
+            type:"GET",
+            data:{"new_id":commentImage.parents(".newItem").attr("new_id")},
+            dataType:"JSON",
+            success:function (arg) {
+                var commentArea = $(document.createElement("div"))
+                commentArea.append($("<div><textarea></textarea><button>评论</button></div>"))
+                commentImage.parents(".operateBox").append(commentArea)
+                createCommentDomTree(arg, commentArea)
+            }
+        })
     })
 
 })

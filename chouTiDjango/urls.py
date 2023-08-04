@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^register.html$', views.registerChouTi),
     url(r'^submitValidateEmail$', views.submitValidateEmail),
     url(r'^newLikedClick', views.newLikedClick),
+    url(r'^getComments/$', views.getComments),
 ]

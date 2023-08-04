@@ -9,3 +9,5 @@ from .models import *
 admin.site.register(userInfo)
 admin.site.register(sendMsg)
 admin.site.register(chouTiNews)
+admin.site.register(usersLikeNews)
+admin.site.register(commentSOfNews)
