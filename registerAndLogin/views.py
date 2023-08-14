@@ -170,9 +170,20 @@ def submitNewComment(request):
     author    = models.userInfo.objects.filter(id=request.session.get("user_info")["id"])[0]
     new     = models.chouTiNews.objects.filter(id=int(request.POST.get("new_id")))[0]
     if content and author and new:
-        models.commentSOfNews.objects.create(content=content, author=author, new=new)
-        return HttpResponse("ok")
+        obj = models.commentSOfNews.objects.create(content=content, author=author, new=new)
+        return HttpResponse(obj.id)
     else:
-        return HttpResponse("cotent/author/new is NULL")
+        return HttpResponse("failed")
+
+def submitCommentReply(request):
+    content = request.POST.get("content")
+    author  = models.userInfo.objects.filter(id=request.session.get("user_info")["id"])[0]
+    new     = models.chouTiNews.objects.filter(id=int(request.POST.get("new_id")))[0]
+    parentComment = models.commentSOfNews.objects.filter(id=int(request.POST.get("parentComment_id")))[0]
+    if content and author and new and parentComment:
+        obj = models.commentSOfNews.objects.create(content=content, author=author, new=new, parentComment_id=parentComment)
+        return HttpResponse(obj.id)
+    else:
+        return HttpResponse("failed")
 
 

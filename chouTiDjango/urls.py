@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^newLikedClick', views.newLikedClick),
     url(r'^getComments/$', views.getComments),
     url(r'^submitNewComment/', views.submitNewComment),
+    url(r'^submitCommentReply/', views.submitCommentReply),
 ]

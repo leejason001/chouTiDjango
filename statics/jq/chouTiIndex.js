@@ -19,7 +19,7 @@ function createCommentTreeNodeContent(content) {
 function createCommentDomTree(ret, parentNode) {
     if (ret.length > 0) {
         $.each(ret, function (index, comment) {
-            var node = $("<div class='commentNode'></div>")
+            var node = $("<div class='commentNode' comment_id="+comment["id"]+"></div>")
             node.append(createCommentTreeNodeContent(comment["content"]))
             parentNode.append(node)
             createCommentDomTree(comment["children"], node)
@@ -124,7 +124,32 @@ $(document).ready(function () {
                     commentArea.addClass("commentArea")
                     commentImage.parents(".operateBox").append(commentArea)
                     createCommentDomTree(arg, commentArea)
-
+                    $(".operateBox").on("click", ".commentReply", function () {
+                        var me = $(this)
+                        if (me.siblings(".replyCommentArea").length > 0) {
+                            me.siblings(".replyCommentArea").remove()
+                        } else if(0 == me.siblings(".replyCommentArea").length) {
+                            me.after("<div class='replyCommentArea'><textarea class='replyCommentInput'></textarea><button class='submitReply'>回复</button></div>")
+                            me.siblings(".replyCommentArea").children(".submitReply").on("click", function () {
+                                replyCommentInput = $(this).siblings("textarea.replyCommentInput")
+                                if (replyCommentInput.val()!="") {
+                                    $.ajax({
+                                        url:"/submitCommentReply/",
+                                        type:"POST",
+                                        data:{"content": replyCommentInput.val(), "new_id":replyCommentInput.parents(".newItem").attr("new_id"), "parentComment_id": replyCommentInput.parents(".commentNode").attr("comment_id")},
+                                        success: function(arg){
+                                            if (arg != "failed") {
+                                                var commentNode = $("<div class='commentNode' comment_id="+arg+"></div>")
+                                                commentNode.append(createCommentTreeNodeContent(replyCommentInput.val()))
+                                                replyCommentInput.parents(".commentNode").append(commentNode)
+                                                replyCommentInput.parents(".replyCommentArea").remove()
+                                            }
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
 
                     commentArea.append($("<div class='itemCommentArea'><textarea class='itemCommentInput'></textarea><button class='submitComment'>评论</button></div>"))
 
@@ -135,9 +160,8 @@ $(document).ready(function () {
                             type: "POST",
                             data:{"new_id":new_id, "commentContent": itemCommentInput.val()},
                             success:function (arg) {
-                                if ("ok" == arg) {
-                                    var commentNode = $(document.createElement("div"))
-                                    commentNode.addClass("commentNode")
+                                if (arg != "failed") {
+                                    var commentNode = $("<div class='commentNode' comment_id="+arg+"></div>")
                                     commentNode.append(createCommentTreeNodeContent(itemCommentInput.val()))
                                     commentArea.children(".itemCommentArea").before(commentNode)
 
