@@ -106,22 +106,27 @@ $(document).ready(function () {
 
     $(".operateImageCommon.comments").click(function () {
         var commentImage = $(this)
-        $.ajax({
-            url:"/getComments/",
-            type:"GET",
-            data:{"new_id":commentImage.parents(".newItem").attr("new_id")},
-            dataType:"JSON",
-            success:function (arg) {
-                var commentArea = $(document.createElement("div"))
-                commentArea.addClass("commentArea")
-                createCommentDomTree(arg, commentArea)
+        var commentArea  = commentImage.parent().siblings(".commentArea")
+        if (commentArea.length > 0) {
+            commentArea.remove()
+        } else if(0 == commentArea.length) {
+            $.ajax({
+                url:"/getComments/",
+                type:"GET",
+                data:{"new_id":commentImage.parents(".newItem").attr("new_id")},
+                dataType:"JSON",
+                success:function (arg) {
+                    var commentArea = $(document.createElement("div"))
+                    commentArea.addClass("commentArea")
+                    createCommentDomTree(arg, commentArea)
 
-                commentArea.append($("<div><textarea class='itemCommentInput'></textarea><button class='submitComment'>评论</button></div>"))
-                commentImage.parents(".operateBox").append(commentArea)
+                    commentArea.append($("<div><textarea class='itemCommentInput'></textarea><button class='submitComment'>评论</button></div>"))
+                    commentImage.parents(".operateBox").append(commentArea)
 
-                // $("textarea.itemCommentInput .submitComment")
-            }
-        })
+                    // $("textarea.itemCommentInput .submitComment")
+                }
+            })
+        }
     })
 
 })
