@@ -192,4 +192,7 @@
 .commentNode {
     margin-left: 10px;
 }
+.commentNode span {
+    margin-right: 20px;
+}
 

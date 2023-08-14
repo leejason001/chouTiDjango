@@ -12,12 +12,15 @@ function getValidatorCodeCountdown(currentHtmlElement) {
         }
     }, 1000);
 }
+function createCommentTreeNodeContent(content) {
+    return $("<span>"+content+"</span><span class='commentReply'>回复</span>")
+}
 
 function createCommentDomTree(ret, parentNode) {
     if (ret.length > 0) {
         $.each(ret, function (index, comment) {
             var node = $("<div class='commentNode'></div>")
-            node.append($("<span>"+comment["content"]+"</span>"))
+            node.append(createCommentTreeNodeContent(comment["content"]))
             parentNode.append(node)
             createCommentDomTree(comment["children"], node)
         })
@@ -119,10 +122,11 @@ $(document).ready(function () {
                 success:function (arg) {
                     var commentArea = $(document.createElement("div"))
                     commentArea.addClass("commentArea")
+                    commentImage.parents(".operateBox").append(commentArea)
                     createCommentDomTree(arg, commentArea)
 
+
                     commentArea.append($("<div class='itemCommentArea'><textarea class='itemCommentInput'></textarea><button class='submitComment'>评论</button></div>"))
-                    commentImage.parents(".operateBox").append(commentArea)
 
                     var itemCommentInput = $("textarea.itemCommentInput")
                     itemCommentInput.siblings(".submitComment").on("click", function () {
@@ -134,7 +138,7 @@ $(document).ready(function () {
                                 if ("ok" == arg) {
                                     var commentNode = $(document.createElement("div"))
                                     commentNode.addClass("commentNode")
-                                    commentNode.append($("<span>"+itemCommentInput.val()+"</span>"))
+                                    commentNode.append(createCommentTreeNodeContent(itemCommentInput.val()))
                                     commentArea.children(".itemCommentArea").before(commentNode)
 
                                     itemCommentInput.val("")
