@@ -113,9 +113,13 @@ $(document).ready(function () {
             dataType:"JSON",
             success:function (arg) {
                 var commentArea = $(document.createElement("div"))
-                commentArea.append($("<div><textarea></textarea><button>评论</button></div>"))
-                commentImage.parents(".operateBox").append(commentArea)
+                commentArea.addClass("commentArea")
                 createCommentDomTree(arg, commentArea)
+
+                commentArea.append($("<div><textarea class='itemCommentInput'></textarea><button class='submitComment'>评论</button></div>"))
+                commentImage.parents(".operateBox").append(commentArea)
+
+                // $("textarea.itemCommentInput .submitComment")
             }
         })
     })
