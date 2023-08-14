@@ -165,5 +165,14 @@ def getComments(request):
 
     return HttpResponse(json.dumps(ret))
 
+def submitNewComment(request):
+    content = request.POST.get("commentContent")
+    author    = models.userInfo.objects.filter(id=request.session.get("user_info")["id"])[0]
+    new     = models.chouTiNews.objects.filter(id=int(request.POST.get("new_id")))[0]
+    if content and author and new:
+        models.commentSOfNews.objects.create(content=content, author=author, new=new)
+        return HttpResponse("ok")
+    else:
+        return HttpResponse("cotent/author/new is NULL")
 
 

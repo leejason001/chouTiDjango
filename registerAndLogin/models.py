@@ -42,7 +42,7 @@ class commentSOfNews(models.Model):
     content = models.CharField(max_length=100)
     author = models.ForeignKey(userInfo)
     new    = models.ForeignKey(chouTiNews)
-    device = models.CharField(max_length=16, null=True)
+    device = models.CharField(max_length=16, null=True, blank=True, default=None)
     createTime = models.DateTimeField(auto_now_add=True)
     parentComment_id = models.ForeignKey(to="self", related_name="parentCommentTable", blank=True,  default=None)
 

@@ -110,20 +110,40 @@ $(document).ready(function () {
         if (commentArea.length > 0) {
             commentArea.remove()
         } else if(0 == commentArea.length) {
+            var new_id = commentImage.parents(".newItem").attr("new_id")
             $.ajax({
                 url:"/getComments/",
                 type:"GET",
-                data:{"new_id":commentImage.parents(".newItem").attr("new_id")},
+                data:{"new_id":new_id},
                 dataType:"JSON",
                 success:function (arg) {
                     var commentArea = $(document.createElement("div"))
                     commentArea.addClass("commentArea")
                     createCommentDomTree(arg, commentArea)
 
-                    commentArea.append($("<div><textarea class='itemCommentInput'></textarea><button class='submitComment'>评论</button></div>"))
+                    commentArea.append($("<div class='itemCommentArea'><textarea class='itemCommentInput'></textarea><button class='submitComment'>评论</button></div>"))
                     commentImage.parents(".operateBox").append(commentArea)
 
-                    // $("textarea.itemCommentInput .submitComment")
+                    var itemCommentInput = $("textarea.itemCommentInput")
+                    itemCommentInput.siblings(".submitComment").on("click", function () {
+                        $.ajax({
+                            url: "/submitNewComment/",
+                            type: "POST",
+                            data:{"new_id":new_id, "commentContent": itemCommentInput.val()},
+                            success:function (arg) {
+                                if ("ok" == arg) {
+                                    var commentNode = $(document.createElement("div"))
+                                    commentNode.addClass("commentNode")
+                                    commentNode.append($("<span>"+itemCommentInput.val()+"</span>"))
+                                    commentArea.children(".itemCommentArea").before(commentNode)
+
+                                    itemCommentInput.val("")
+                                } else {
+                                    alert("新增评论失败")
+                                }
+                            }
+                        })
+                    })
                 }
             })
         }
