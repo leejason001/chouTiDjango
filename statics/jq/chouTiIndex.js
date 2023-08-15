@@ -54,6 +54,39 @@ $(document).ready(function () {
         })
 
     })
+
+    $(".operateBox").on("click", ".commentReply", function () {
+        var me = $(this)
+        if (me.siblings(".replyCommentArea").length > 0) {
+            me.siblings(".replyCommentArea").remove()
+        } else if(0 == me.siblings(".replyCommentArea").length) {
+            me.after("<div class='replyCommentArea'><textarea class='replyCommentInput'></textarea><button class='submitReply'>回复</button></div>")
+            me.siblings(".replyCommentArea").children(".submitReply").on("click", function () {
+                replyCommentInput = $(this).siblings("textarea.replyCommentInput")
+                if (replyCommentInput.val()!="") {
+                    $.ajax({
+                        url:"/submitCommentReply/",
+                        type:"POST",
+                        data:{"content": replyCommentInput.val(), "new_id":replyCommentInput.parents(".newItem").attr("new_id"), "parentComment_id": replyCommentInput.parents(".commentNode").attr("comment_id")},
+                        success: function(arg){
+                            if (arg != "failed") {
+                                var commentNode = $("<div class='commentNode' comment_id="+arg+"></div>")
+                                commentNode.append(createCommentTreeNodeContent(replyCommentInput.val()))
+                                fatherAppend_commentNode = replyCommentInput.parent()
+                                while(!fatherAppend_commentNode.hasClass("commentNode")) {
+                                    fatherAppend_commentNode = fatherAppend_commentNode.parent()
+                                }
+                                fatherAppend_commentNode.append(commentNode)
+                                replyCommentInput.parents(".replyCommentArea").remove()
+                            }
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+
     $(".register_title .closeButton").click(function () {
         $(this).parents(".maskBackground").addClass("css_hide")
     })
@@ -124,32 +157,6 @@ $(document).ready(function () {
                     commentArea.addClass("commentArea")
                     commentImage.parents(".operateBox").append(commentArea)
                     createCommentDomTree(arg, commentArea)
-                    $(".operateBox").on("click", ".commentReply", function () {
-                        var me = $(this)
-                        if (me.siblings(".replyCommentArea").length > 0) {
-                            me.siblings(".replyCommentArea").remove()
-                        } else if(0 == me.siblings(".replyCommentArea").length) {
-                            me.after("<div class='replyCommentArea'><textarea class='replyCommentInput'></textarea><button class='submitReply'>回复</button></div>")
-                            me.siblings(".replyCommentArea").children(".submitReply").on("click", function () {
-                                replyCommentInput = $(this).siblings("textarea.replyCommentInput")
-                                if (replyCommentInput.val()!="") {
-                                    $.ajax({
-                                        url:"/submitCommentReply/",
-                                        type:"POST",
-                                        data:{"content": replyCommentInput.val(), "new_id":replyCommentInput.parents(".newItem").attr("new_id"), "parentComment_id": replyCommentInput.parents(".commentNode").attr("comment_id")},
-                                        success: function(arg){
-                                            if (arg != "failed") {
-                                                var commentNode = $("<div class='commentNode' comment_id="+arg+"></div>")
-                                                commentNode.append(createCommentTreeNodeContent(replyCommentInput.val()))
-                                                replyCommentInput.parents(".commentNode").append(commentNode)
-                                                replyCommentInput.parents(".replyCommentArea").remove()
-                                            }
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                    })
 
                     commentArea.append($("<div class='itemCommentArea'><textarea class='itemCommentInput'></textarea><button class='submitComment'>评论</button></div>"))
 
