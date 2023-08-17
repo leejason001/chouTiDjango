@@ -17,22 +17,64 @@ import models
 from utils import check_code as CheckCode
 from utils import myTools
 
+from django.utils.safestring import mark_safe
+import math
+
 
 def _fullmatch(regex, string, flags=0):
     if hasattr(re, 'fullmatch'):
         return re.fullmatch(regex, string)
     return re.match("(?:" + regex + ")\Z", string, flags=flags)
 
+def computePageNumbers(pageNumberCount, basePageNum, PAGE_NUMBERS_NOW, newsMaxNumPerPage, totalNumberOfNews):
+    limitLength     = math.ceil(pageNumberCount/2.0)
+    limitLength_to  = math.floor(pageNumberCount/2.0)
+    maxPageNum = math.ceil(float(totalNumberOfNews)/float(newsMaxNumPerPage))
+
+    if basePageNum - limitLength <= 0:
+        i = 1
+        while i<= pageNumberCount:
+            PAGE_NUMBERS_NOW.append(i)
+            i += 1
+    elif basePageNum + limitLength >= maxPageNum:
+        i = 0
+        while i<pageNumberCount:
+            PAGE_NUMBERS_NOW.append(maxPageNum - i)
+            i+=1
+            PAGE_NUMBERS_NOW.sort()
+    else:
+        i=0
+        while i<pageNumberCount:
+            PAGE_NUMBERS_NOW.append(basePageNum-limitLength_to+i)
+            i+=1
+
+
 # Create your views here.
 def showChouTiIndex(request):
     loginObj    = myForms.loginForm()
     registerObj = myForms.registerForm()
 
+    NEWS_MAX_NUM_PERPAGE = 2
+    PAGE_NUMBER_COUNT       = 5
+    base_pageNum =  int(request.GET.get("p", 1))
+    PAGE_NUMBERS_NOW = []
 
-    news = models.chouTiNews.objects.all()
+    computePageNumbers(PAGE_NUMBER_COUNT, base_pageNum, PAGE_NUMBERS_NOW, NEWS_MAX_NUM_PERPAGE, models.chouTiNews.objects.all().count())
 
+    print PAGE_NUMBERS_NOW
 
-    return render(request, "chouTiIndex.html", {'loginObj': loginObj, "registerObj": registerObj, "news": news})
+    str_pagers = ""
+    for pager in PAGE_NUMBERS_NOW:
+        pagerHtml = "<a href='/chouTiIndex.html?p=%d'>%d</a>"
+        pagerHtml = pagerHtml %(pager, pager)
+        str_pagers += pagerHtml
+
+    newsStartIndex = (base_pageNum - 1)*NEWS_MAX_NUM_PERPAGE
+    news = models.chouTiNews.objects.all()[newsStartIndex:newsStartIndex+NEWS_MAX_NUM_PERPAGE]
+
+    print str_pagers
+
+    return render(request, "chouTiIndex.html", {'loginObj': loginObj, "registerObj": registerObj, "news": news, "str_pagers": mark_safe(str_pagers)})
 
 def getValidateCodeImage(request):
     stream = io.BytesIO()

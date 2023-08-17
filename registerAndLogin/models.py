@@ -25,7 +25,7 @@ class kindOfNews(models.Model):
 '''
 
 class chouTiNews(models.Model):
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=20, null=True)
     summary = models.CharField(max_length=200, null=True)
     url = models.URLField(max_length=32, null=True)
     kindName = models.CharField(max_length=20)
@@ -44,7 +44,7 @@ class commentSOfNews(models.Model):
     new    = models.ForeignKey(chouTiNews)
     device = models.CharField(max_length=16, null=True, blank=True, default=None)
     createTime = models.DateTimeField(auto_now_add=True)
-    parentComment_id = models.ForeignKey(to="self", related_name="parentCommentTable", blank=True,  default=None)
+    parentComment_id = models.ForeignKey(to="self", related_name="parentCommentTable", null=True, blank=True,  default=None)
 
 
 
