@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'^getComments/$', views.getComments),
     url(r'^submitNewComment/', views.submitNewComment),
     url(r'^submitCommentReply/', views.submitCommentReply),
+    url(r'^uploadImage.html$', views.uploadImage),
+    url(r'^upload_aNew.html$', views.upload_aNew),
 ]

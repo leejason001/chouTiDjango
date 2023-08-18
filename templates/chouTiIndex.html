@@ -81,6 +81,21 @@
                     </ul>
                     <span class="publish">发布</span>
                 </div>
+                <div class="publishWindow">
+                    <form action="/uploadImage.html" method="post" target="forUploadImage" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <iframe name="forUploadImage" src="" ></iframe>
+                        <input type="file" name="imageInput" id="imageInput" />
+                    </form>
+                    <form action="/upload_aNew.html" method="post">
+                        {% csrf_token %}
+                        {{ publishWindowObj.title }}
+                        {{ publishWindowObj.summary }}
+                        {{ publishWindowObj.kindName }}
+                        {{ publishWindowObj.url }}
+                        <input type="submit" />
+                    </form>
+                </div>
             </div>
             <div class="chouTiContent">
                 <div class="chouTiContent-middlePart">

@@ -41,6 +41,22 @@ $(document).ready(function () {
         }
     });
 
+    $(".chouTiContentHead .publish").click(function () {
+        console.log("cccccccccc")
+    })
+
+    $("#imageInput").on("change", function (e) {
+        $(this).parent("form").submit()
+    })
+    $("#imageInput").siblings("iframe").on("load", function () {
+        iframe = $(this)
+        console.log(JSON.parse(iframe.contents().find("body").text())["imagePath"])
+        var imagePath = JSON.parse(iframe.contents().find("body").text())["imagePath"]
+        var image = document.createElement("img")
+        image.src = imagePath
+        iframe.after($(image))
+    })
+
     $(".tabContentItemPage").width($(".chouTiContent-middlePart").width() -$(".tabContentItem img").width())
     $(".chouTiContentHead-middlePart li").click(function () {
         me = $(this)

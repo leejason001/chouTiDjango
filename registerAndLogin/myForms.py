@@ -35,3 +35,11 @@ class registerForm(forms.Form):
         error_messages={"required": u'此处不能为空'},
         widget=widgets.TextInput({"placeholder": u"请输入用户名"}),
     )
+
+class publishWindowForm(forms.Form):
+    title = fields.CharField(max_length=20)
+    summary = fields.CharField(max_length=200)
+    url = fields.URLField(max_length=32)
+    kindName = fields.CharField(max_length=20)
+
+

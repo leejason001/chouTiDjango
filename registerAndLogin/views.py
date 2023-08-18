@@ -53,6 +53,8 @@ def computePageNumbers(pageNumberCount, basePageNum, PAGE_NUMBERS_NOW, newsMaxNu
 def showChouTiIndex(request):
     loginObj    = myForms.loginForm()
     registerObj = myForms.registerForm()
+    publishWindowObj = myForms.publishWindowForm()
+
 
     NEWS_MAX_NUM_PERPAGE = 2
     PAGE_NUMBER_COUNT       = 5
@@ -60,8 +62,6 @@ def showChouTiIndex(request):
     PAGE_NUMBERS_NOW = []
 
     computePageNumbers(PAGE_NUMBER_COUNT, base_pageNum, PAGE_NUMBERS_NOW, NEWS_MAX_NUM_PERPAGE, models.chouTiNews.objects.all().count())
-
-    print PAGE_NUMBERS_NOW
 
     str_pagers = ""
     for pager in PAGE_NUMBERS_NOW:
@@ -74,7 +74,21 @@ def showChouTiIndex(request):
 
     print str_pagers
 
-    return render(request, "chouTiIndex.html", {'loginObj': loginObj, "registerObj": registerObj, "news": news, "str_pagers": mark_safe(str_pagers)})
+    return render(request, "chouTiIndex.html", {'loginObj': loginObj, "registerObj": registerObj, "news": news, "str_pagers": mark_safe(str_pagers), "publishWindowObj": publishWindowObj})
+
+def uploadImage(request):
+    portraitObj = request.FILES.get("imageInput")
+    import os
+    portraitFontPath = os.path.join("font_statics", "upload", portraitObj.name)
+    portraitFile = open(os.path.join("statics", "upload", portraitObj.name), "wb")
+    for chunk in portraitObj.chunks():
+        portraitFile.write(chunk)
+    portraitFile.close()
+    return HttpResponse(json.dumps({"status":"success", "imagePath":portraitFontPath}))
+
+def upload_aNew(request):
+    obj = myForms.publishWindowForm(request.POST)
+
 
 def getValidateCodeImage(request):
     stream = io.BytesIO()
