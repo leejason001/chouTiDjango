@@ -87,12 +87,13 @@
                         <iframe name="forUploadImage" src="" ></iframe>
                         <input type="file" name="imageInput" id="imageInput" />
                     </form>
-                    <form action="/upload_aNew.html" method="post">
+                    <form id="upload_aNewToDataBase" action="/upload_aNew.html" method="post">
                         {% csrf_token %}
                         {{ publishWindowObj.title }}
                         {{ publishWindowObj.summary }}
-                        {{ publishWindowObj.kindName }}
                         {{ publishWindowObj.url }}
+                        {{ publishWindowObj.kindName }}
+                        {{ publishWindowObj.portraitPath }}
                         <input type="submit" />
                     </form>
                 </div>

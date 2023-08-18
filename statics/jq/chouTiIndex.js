@@ -55,6 +55,7 @@ $(document).ready(function () {
         var image = document.createElement("img")
         image.src = imagePath
         iframe.after($(image))
+        $("#upload_aNewToDataBase").children("input[name=portraitPath]").val(imagePath)
     })
 
     $(".tabContentItemPage").width($(".chouTiContent-middlePart").width() -$(".tabContentItem img").width())

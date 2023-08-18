@@ -37,9 +37,10 @@ class registerForm(forms.Form):
     )
 
 class publishWindowForm(forms.Form):
-    title = fields.CharField(max_length=20)
-    summary = fields.CharField(max_length=200)
-    url = fields.URLField(max_length=32)
-    kindName = fields.CharField(max_length=20)
+    title        = fields.CharField(max_length=20)
+    summary      = fields.CharField(max_length=200)
+    url          = fields.URLField(max_length=32)
+    kindName     = fields.CharField(max_length=20)
+    portraitPath = fields.CharField(max_length=200)
 
 

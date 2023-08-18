@@ -84,10 +84,23 @@ def uploadImage(request):
     for chunk in portraitObj.chunks():
         portraitFile.write(chunk)
     portraitFile.close()
+
     return HttpResponse(json.dumps({"status":"success", "imagePath":portraitFontPath}))
 
 def upload_aNew(request):
     obj = myForms.publishWindowForm(request.POST)
+    if obj.is_valid():
+        value_dict = obj.clean()
+        authour = models.userInfo.objects.filter(id=request.session.get("user_info")["id"])[0]
+        models.chouTiNews.objects.create(
+            title = value_dict["title"],
+            summary = value_dict["summary"],
+            url = value_dict["url"],
+            kindName = value_dict["kindName"],
+            portraitPath = value_dict["portraitPath"],
+            authour = authour
+        )
+    return redirect("/chouTiIndex.html")
 
 
 def getValidateCodeImage(request):
