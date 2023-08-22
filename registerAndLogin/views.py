@@ -70,7 +70,7 @@ def showChouTiIndex(request):
         str_pagers += pagerHtml
 
     newsStartIndex = (base_pageNum - 1)*NEWS_MAX_NUM_PERPAGE
-    news = models.chouTiNews.objects.all()[newsStartIndex:newsStartIndex+NEWS_MAX_NUM_PERPAGE]
+    news = models.chouTiNews.objects.order_by('-createTime').all()[newsStartIndex:newsStartIndex+NEWS_MAX_NUM_PERPAGE]
 
     print str_pagers
 
